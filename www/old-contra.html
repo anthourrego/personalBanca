@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <title>Personal Banca</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/floating-labels.css">
+    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
+  </head>
+  <body class="container">
+    <div class="row vh-100" id="menu">
+      <div class="col-12 align-self-center">
+        <form id="formCorreo" autocomplete="off">
+          <h3 class="text-center mb-5 text-white">¿Ha olvidado su contraseña?</h3>
+          <div class="form-label-group">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Correro electrónico" required autocomplete="off">
+            <label for="email">Correo electrónico</label>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-check"></i></button>
+            <a class="btn btn-lg btn-warning" href="login.html"><i class="fas fa-times"></i></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="row vh-100 d-none" id="menuPin">
+      <div class="col-12 align-self-center">
+        <form id="formPin" autocomplete="off">
+          <h3 class="text-center text-white">¿Pin de validación?</h3>
+          <div class="form-label-group">
+            <input type="text" id="pin" name="pin" class="form-control" placeholder="Pin" required autocomplete="off">
+            <label for="pin">Pin</label>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-check"></i></button>
+            <a class="btn btn-lg btn-warning" href="login.html"><i class="fas fa-times"></i></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="row vh-100 d-none" id="menuContra">
+      <div class="col-12 align-self-center">
+        <form id="formContra" action="" autocomplete="off">
+          <input type="hidden" name="accion" value="actualizarPass">
+          <input type="hidden" name="correo" id="correo">
+          <h3 class="text-center mb-5 text-white">Nueva contraseña</h3>
+          <div class="form-label-group">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña nueva" required autocomplete="off">
+            <label for="password">Contraseña nueva</label>
+          </div>
+          <div class="form-label-group">
+            <input type="password" id="rePassword" name="rePassword" class="form-control" placeholder="Confirmar contraseña" required autocomplete="off">
+            <label for="rePassword">Confirmar contraseña</label>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-check"></i></button>
+            <a class="btn btn-lg btn-warning" href="login.html"><i class="fas fa-times"></i></a>          
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorTitulo"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="errorContenido"></div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="conexionInternet" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document"> 
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Conexión a internet</h5>
+          </div>
+          <div class="modal-body">
+            Por favor valide su conexión a alguna red e intentalo de nuevo.
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button class="btn btn-success" id="recargar"><i class="fas fa-redo-alt"></i> Reconectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade modal-cargando" id="cargando" tabindex="1" role="dialog" aria-labelledby="cargandoTitle" aria-hidden="true" data-keyboard="false" data-focus="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="box-loading">
+                <div class="loader">
+                    <div class="loader-1">
+                        <div class="loader-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="./js/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-validate/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-validate/localization/messages_es.min.js"></script>
+    <script type="text/javascript" src="./js/general.js"></script>  
+    <script type="text/javascript" src="./js/old-contra.js"></script>
+  </body>
+</html>
