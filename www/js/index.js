@@ -12,6 +12,7 @@ $(function() {
     localStorage.removeItem('check');
     localStorage.removeItem('idIntervalo');
     localStorage.removeItem('intervalo');
+    localStorage.removeItem('tipo');
 
 
     $("#btn-borrar").on("click", function() {
@@ -50,21 +51,28 @@ function traerAhorros() {
         success: function(data) {
             delete data["cantidad_columnas"];
             delete data["sql"];
+            console.log(data);
 
             if (data.cantidad_registros < 3) {
                 $("#btn-agregarAhorro").removeClass("disabled");
             }
 
             for (let i = 0; i < data.cantidad_registros; i++) {
+                var tipo = '';
+                if (data[i].tipo_ahorro == 1) {
+                    tipo = "Ahorro libre";
+                } else {
+                    tipo = "Ahorro programado";
+                } 
+
                 $("#ahorros").append(`<div class="card mb-4">
                     <div class="modal-header">
                       <h5 class="card-title">${data[i].nombre}</h5>
                       <button type="button" onClick="confirmarBorrar(${data[i].id});" class="close" data-dismiss="modal"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     <div class="card-body">
-                      
-                      <h6 class="card-subtitle mb-2 text-muted">Objetivo: $${new Intl.NumberFormat("de-DE").format(data[i].objetivo)}</h6>
-                      <p class="card-text">Ahorrado: $${new Intl.NumberFormat("de-DE").format(data[i].ahorrado)} </p>
+                      <h6 class="card-subtitle mb-2 text-muted">Faltan: $ ${new Intl.NumberFormat("de-DE").format(data[i].objetivo - data[i].ahorrado)} </h6>
+                      <p class="card-text">Tipo: ${tipo}</p>
                       <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: ${calcularPorcentaje(data[i].objetivo,data[i].ahorrado)}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">${calcularPorcentaje(data[i].objetivo,data[i].ahorrado)}%</div>
                       </div>
@@ -95,7 +103,7 @@ function calcularPorcentaje(objetivo, ahorrado) {
     objetivo = parseInt(objetivo, 10);
     ahorrado = parseInt(ahorrado, 10);
 
-    porcentaje = (100 * ahorrado) / objetivo;
+    porcentaje = parseFloat(Math.round(100 * ahorrado) / objetivo).toFixed(2);
     return porcentaje;
 
 }

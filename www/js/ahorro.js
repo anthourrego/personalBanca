@@ -11,6 +11,71 @@ $(function() {
             return rex.test($(this).text());
         }).show();
     });
+
+    $("#formAddMonto :input[name='monto']").keyup(function(event){
+        $(this).val(function(index, value){
+            return value
+                .replace(/\D/g, "")
+                .replace(/([0-9])([0-9]{2})$/, '$1$2')
+                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".")
+        });
+    });
+
+    $("#formAddMonto").validate({
+        debug: true,
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+            $(element).addClass('is-valid');
+        }
+    });
+
+    $("#formAddMonto").submit(function(event) {
+        event.preventDefault();
+        valor = $("#formAddMonto :input[name='monto']").val();
+        if ($("#formAddMonto").valid()) {
+            $("#cargando").modal("show");
+
+            $.ajax({
+                url: URL_BASE,
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                data: new FormData(this),
+                success: function(data) {
+                    if (data) {
+                        localStorage.ahorrado = Number(localStorage.ahorrado) + Number(valor.replaceAll(".",""));
+                        $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(localStorage.ahorrado));
+                        generarTabla();
+                    } else {
+                        $("#errorTitulo").html("Error al agregar monto");
+                        $("#errorContenido").html("No se ha podido agregar el valor");
+                        $("#modalError").modal("show");
+                    }
+                },
+                error: function() {
+                    $("#errorTitulo").html("Error en el envio de datos");
+                    $("#errorContenido").html("Ha ocurrido un error con al conexión.");
+                    $("#modalError").modal("show");
+                },
+                complete: function() {
+                    $("#modalAddMonto").modal("hide");
+                    $("#formAddMonto :input[name='monto']").val("").removeClass("disabled").prop("disabled", false);
+                    cerrarModalCargando();
+                }
+            });
+        }
+    });
 });
 
 function cambiarCheck(id, intervalo) {
@@ -26,7 +91,6 @@ function cambiarCheck(id, intervalo) {
         $("#modalConfirmar").modal("show");
         $("#montoConfirmacion").html(new Intl.NumberFormat("de-DE").format(intervalo));
     }
-
 }
 
 function actualizarMonto() {
@@ -72,11 +136,28 @@ function generarTabla() {
         data: { accion: 'datosMontos', idAhorro: localStorage.idAhorro },
         success: function(data) {
             $('#montos').empty();
-            for (let i = 0; i < data.cantidad_registros; i++) {
-                if (data[i].chec == 1) {
-                    $('#montos').append('<div class="col-4 text-center border items"><button id="int_' + data[i].id + '" onClick="cambiarCheck(' + data[i].id + ', ' + data[i].intervalo + ')" class="btn btn-light w-100" value="' + data[i].chec + '">' + new Intl.NumberFormat("de-DE").format(data[i].intervalo) + ' <span id="icon' + data[i].id + '">✔<span></button></div>');
-                } else {
-                    $('#montos').append('<div class="col-4 text-center border items"><button id="int_' + data[i].id + '" onClick="cambiarCheck(' + data[i].id + ', ' + data[i].intervalo + ')" class="btn btn-light w-100" value="' + data[i].chec + '">' + new Intl.NumberFormat("de-DE").format(data[i].intervalo) + ' <span id="icon' + data[i].id + '" class="d-none">✔<span></button></div>');
+            if (localStorage.tipo == 1) {
+                $("#addMonto").removeClass("d-none");
+                $("#input-search").addClass("d-none");
+                if (data.cantidad_registros >= 1) {
+                    $("#montos").append(`<ul class="list-group list-group-flush w-100">`);
+                    for (let i = 0; i < data.cantidad_registros; i++) {
+                        $("#montos").append(`<li class="w-100 list-group-item d-flex justify-content-between align-items-center">
+                                                <span><b>$</b> ${new Intl.NumberFormat("de-DE").format(data[i].valor)}</span>
+                                                <span>${moment(data[i].fecha).format("DD/MM/YYYY")}</span>
+                                            </li>`);
+                    }
+                    $("#montos").append(`</ul>`);
+                }
+            } else {
+                $("#addMonto").addClass("d-none");
+                $("#input-search").removeClass("d-none");
+                for (let i = 0; i < data.cantidad_registros; i++) {
+                    if (data[i].chec == 1) {
+                        $('#montos').append('<div class="col-4 text-center border items"><button id="int_' + data[i].id + '" onClick="cambiarCheck(' + data[i].id + ', ' + data[i].valor + ')" class="btn btn-light w-100" value="' + data[i].chec + '">' + new Intl.NumberFormat("de-DE").format(data[i].valor) + ' <span id="icon' + data[i].id + '">✔<span></button></div>');
+                    } else {
+                        $('#montos').append('<div class="col-4 text-center border items"><button id="int_' + data[i].id + '" onClick="cambiarCheck(' + data[i].id + ', ' + data[i].valor + ')" class="btn btn-light w-100" value="' + data[i].chec + '">' + new Intl.NumberFormat("de-DE").format(data[i].valor) + ' <span id="icon' + data[i].id + '" class="d-none">✔<span></button></div>');
+                    }
                 }
             }
         },
@@ -99,9 +180,11 @@ function datosAhorro() {
         data: { accion: 'datosAhorro', idAhorro: localStorage.idAhorro },
         success: function(data) {
             localStorage.ahorrado = data[0].ahorrado;
+            localStorage.tipo = data[0].tipo_ahorro;
             $("#tituloAhorro").html(data[0].nombre);
             $("#objetivoAhorro").html(new Intl.NumberFormat("de-DE").format(data[0].objetivo));
             $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(data[0].ahorrado));
+            $("#formAddMonto :input[name='idAhorro']").val(data[0].id)
             generarTabla();
         },
         error: function() {

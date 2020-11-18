@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="./css/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="./css/floating-labels.css">
+    <link rel="stylesheet" href="./css/tempus-dominus/css/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="./css/general.css">
 </head>
 
@@ -17,30 +18,58 @@
     <div class="d-flex justify-content-between mt-3">
         <a href="index.html" id="index" class="btn btn-lg btn-warning  align-self-center">&nbsp;<i class="fas fa-angle-left">&nbsp;</i></a>
         <img class="logo" src="img/png.png">
-        <button onClick="cerrarSesion();" id="cerrarSesion" class="btn btn-lg btn-warning align-self-center"><i class="fas fa-sign-out-alt"></i></button>
+        <button onClick="cerrarSesion();" id="cerrarSesion" class="btn btn-lg btn-warning align-self-center"><i class="fas fa-power-off"></i></button>
     </div>
 
     <div class="card bg-light mb-3 mt-3">
         <div class="card-body">
+            <h4 class="text-center">¿Para que quieres ahorrar?</h4>
             <form id="formAgregar" class="form-signin" autocomplete="off">
                 <input type="hidden" name="accion" value="agregarAhorro" id="accion">
                 <input type="hidden" name="fk_id_usuario" id="fk_id_usuario">
-                <div class="form-label-group">
-                    <input type="text" id="nombreAhorro" name="nombreAhorro" class="form-control" disabled placeholder="Nombre de Ahorro" required autofocus autocomplete="off">
-                    <label for="nombreAhorro">Nombre de Ahorro</label>
+                <div class="form-group input-group">
+                    <input type="text" id="nombreAhorro" name="nombreAhorro" class="form-control" disabled placeholder="Nombre del ahorro" required autofocus autocomplete="off">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                    </div>
                 </div>
-                <div class="form-label-group">
-                    <input type="number" id="objetivo" name="objetivo" class="form-control" disabled placeholder="Objetivo" required autocomplete="off">
-                    <label for="objetivo">$Objetivo</label>
+                <div class="form-group">
+                    <select required class="custom-select" name="tipoAhorro">
+                        <option value="0" disabled selected>Tipo de ahorro</option>
+                        <option value="1">Libre</option>
+                        <option value="2">Programado</option>
+                    </select>
                 </div>
-                <div class="form-label-group">
-                    <input type="number" id="intervalo" name="intervalo" class="form-control" disabled placeholder="intervalo" required autocomplete="off">
-                    <label for="intervalo">$Intervalo</label>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="tel" id="objetivo" name="objetivo" class="form-control" disabled placeholder="¿Cuanto quieres ahorra?" required autocomplete="off">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-label-group">
-                    <textarea id="proposito" name="proposito" class="form-control" disabled placeholder="Proposito" autocomplete="off"></textarea>
+                <div class="form-group input-group d-none">
+                    <input type="tel" id="intervalo" name="intervalo" class="form-control" disabled placeholder="Intervalo" required autocomplete="off">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
                 </div>
-                <button type="submit" id="btn-agregar" disabled class="btn btn-block btn-success mt-3"><i class="fas fa-save"></i> Guardar</button>
+                <div class="form-group form-inline justify-content-end">
+                    <label class="mr-2">Sin fecha limite</label>
+                    <div class="custom-control custom-switch">
+                        <input name="checkFecha" type="checkbox" class="custom-control-input" id="checkFecha">
+                        <label class="custom-control-label" for="checkFecha"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group date" id="fechaLimite" data-target-input="nearest">
+                        <input type="text" id="formfechaLimite" name="formfechaLimite" class="form-control datetimepicker-input" required data-toggle="datetimepicker" data-target="#fechaLimite" placeholder="¿Hasta cuando vas a ahorrar?"/>
+                        <div class="input-group-append" data-target="#fechaLimite" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                </div>
+                <button type="submit" id="btn-agregar" disabled class="btn btn-block btn-success mt-3"><i class="fas fa-piggy-bank"></i> Empezar a ahorrar</button>
             </form>
         </div>
     </div>
@@ -96,6 +125,10 @@
     <script type="text/javascript" src="./js/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="./js/jquery-validate/jquery.validate.min.js"></script>
     <script type="text/javascript" src="./js/jquery-validate/localization/messages_es.min.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/moment.min.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/es.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/underscore-min.js"></script>
     <script type="text/javascript" src="js/general.js"></script>
     <script type="text/javascript" src="js/agregar.js"></script>
 </body>

@@ -1,4 +1,5 @@
-const URL_BASE = "http://www.consumerelectronicsgroup.com/projectX/acciones.php"
+const URL_BASE = "http://localhost/personalBancaBack/acciones.php"
+//const URL_BASE = "http://apparqueo.com/personalBancaBack/acciones.php"
 
 $(function() {
     $("#recargar").on("click", function() {

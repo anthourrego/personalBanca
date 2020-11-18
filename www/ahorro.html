@@ -17,17 +17,20 @@
     <div class="d-flex justify-content-between mt-3">
         <a href="./index.html" class="btn btn-lg btn-warning align-self-center">&nbsp;<i class="fas fa-angle-left">&nbsp;</i></a>
         <img class="logo" src="img/png.png">
-        <a href="./login.html" class="btn btn-lg btn-warning align-self-center"><i class="fas fa-sign-out-alt"></i></a href="./login.html">
+        <a href="./login.html" class="btn btn-lg btn-warning align-self-center"><i class="fas fa-power-off"></i></a href="./login.html">
     </div>
       
     <div class="card bg-light mb-3 mt-3" >
-      <div class="card-header" id="tituloAhorro">Ahorro 1</div>
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Objetivo: $<span id="objetivoAhorro"></span></h6>
-        <p class="card-text">Ahorrado: $<span id="ahorrado"></span></p>
+      <div class="card-header font-weight-bold" id="tituloAhorro"></div>
+      <div class="card-body py-3 d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="card-subtitle mb-2 text-muted">Objetivo: $ <span id="objetivoAhorro"></span></h6>
+          <p class="card-text">Ahorrado: $ <span id="ahorrado"></span></p>
+        </div>
+        <button id="addMonto" data-toggle="modal" data-target="#modalAddMonto" class="btn btn-primary d-none"><i class="fas fa-plus"></i></button>
       </div>
       <div class="form-group container">
-        <input type="search" class="form-control" id="input-search" placeholder="Busca tu monto">
+        <input type="search" class="form-control" id="input-search" autocomplete="off" placeholder="Busca tu monto">
       </div>
       <div id="montos" class="row no-gutters searchable-container"></div>
     </div>
@@ -83,6 +86,52 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modalAddMonto" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">¿Cuanto vas a ahorra?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="formAddMonto" action="">
+              <input type="hidden" name="accion" value="agregarMonto">
+              <input type="hidden" name="idAhorro">
+              <div class="form-group input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <input type="tel" min="1" name="monto" required class="form-control" placeholder="Valor" autocomplete="off">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="submit" form="formAddMonto" class="btn btn-success"><i class="fas fa-save"></i> Agregar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="errorTitulo"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+              </div>
+              <div class="modal-body" id="errorContenido"></div>
+              <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+              </div>
+          </div>
+      </div>
+    </div>
+
     <div class="modal fade modal-cargando" id="cargando" tabindex="1" role="dialog" aria-labelledby="cargandoTitle" aria-hidden="true" data-keyboard="false" data-focus="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="box-loading">
@@ -101,6 +150,8 @@
     <script type="text/javascript" src="./js/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="./js/jquery-validate/jquery.validate.min.js"></script>
     <script type="text/javascript" src="./js/jquery-validate/localization/messages_es.min.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/moment.min.js"></script>
+    <script type="text/javascript" src="./js/tempus-dominus/js/es.js"></script>
     <script type="text/javascript" src="js/general.js"></script>
     <script type="text/javascript" src="js/ahorro.js"></script>
   </body>
