@@ -2,6 +2,13 @@ document.addEventListener("deviceready", conexionInternet, false);
 $("#cargando").modal("show");
 
 $(function() {
+
+    $("#aTerminos").on("click", function(event){
+        event.preventDefault();
+
+        $("#modalTerminos").modal("show");
+    });
+
     $("#formRegistro").validate({
         debug: true,
         rules: {
@@ -14,7 +21,8 @@ $(function() {
             },
             rePass: {
                 equalTo: "#pass"
-            }
+            },
+            terminos: "required"
         },
         errorElement: 'span',
         errorPlacement: function(error, element) {
@@ -36,7 +44,7 @@ $(function() {
         if ($("#formRegistro").valid()) {
             $("#cargando").modal("show");
             $.ajax({
-                url: URL_BASE,
+                url: URL_BASE + 'registrar',
                 type: "POST",
                 cache: false,
                 contentType: false,
@@ -68,22 +76,21 @@ $(function() {
 
 function datosUsuario() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE + 'login/' + $("#email").val() + '/' + $("#pass").val(),
         type: "GET",
         dataType: "json",
-        data: { accion: "iniciarSesion", email: $("#email").val(), password: $("#pass").val() },
         success: function(data) {
-            if (data.cantidad_registros == 1) {
-                localStorage.id = data[0].id;
-                localStorage.nombres = data[0].nombres;
-                localStorage.apellidos = data[0].apellidos;
-                localStorage.email = data[0].email;
+            if (data.success) {
+                localStorage.id = data.msj.id;
+                localStorage.nombres = data.msj.nombres;
+                localStorage.apellidos = data.msj.apellidos;
+                localStorage.email = data.msj.email;
                 localStorage.pass = $("#pass").val();
-                localStorage.pin = data[0].pin;
+                localStorage.pin = data.msj.pin;
                 window.location.href = "index.html"
             } else {
                 $("#errorTitulo").html("Inicio de sesion");
-                $("#errorContenido").html("Usuario Y/O Contraseña Incorrectos");
+                $("#errorContenido").html(data.msj);
                 $("#modalError").modal("show");
             }
         },
@@ -100,9 +107,8 @@ function datosUsuario() {
 
 function conexionInternet() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE  + 'conexion',
         type: "GET",
-        data: { accion: 'conexion' },
         success: function(data) {
             if (data == 1) {
                 $("#nombres").removeAttr("disabled");

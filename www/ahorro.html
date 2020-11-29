@@ -15,7 +15,7 @@
 
 <body class="container">
     <div class="d-flex justify-content-between mt-3">
-        <a href="./index.html" class="btn btn-lg btn-warning align-self-center">&nbsp;<i class="fas fa-angle-left">&nbsp;</i></a>
+        <a href="./ahorros.html" class="btn btn-lg btn-warning align-self-center">&nbsp;<i class="fas fa-angle-left">&nbsp;</i></a>
         <img class="logo" src="img/png.png">
         <a href="./login.html" class="btn btn-lg btn-warning align-self-center"><i class="fas fa-power-off"></i></a href="./login.html">
     </div>
@@ -24,8 +24,8 @@
       <div class="card-header font-weight-bold" id="tituloAhorro"></div>
       <div class="card-body py-3 d-flex justify-content-between align-items-center">
         <div>
-          <h6 class="card-subtitle mb-2 text-muted">Objetivo: $ <span id="objetivoAhorro"></span></h6>
-          <p class="card-text">Ahorrado: $ <span id="ahorrado"></span></p>
+          <h6 class="card-subtitle mb-2 text-muted"><span id="titulo1">Objetivo:</span> $ <span id="objetivoAhorro"></span></h6>
+          <p class="card-text"><span id="titulo2">Ahorrado:</span> $ <span id="ahorrado"></span></p>
         </div>
         <button id="addMonto" data-toggle="modal" data-target="#modalAddMonto" class="btn btn-primary d-none"><i class="fas fa-plus"></i></button>
       </div>
@@ -90,14 +90,13 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">¿Cuanto vas a ahorra?</h5>
+            <h5 class="modal-title">¿Cuanto vas a ahorrar?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form id="formAddMonto" action="">
-              <input type="hidden" name="accion" value="agregarMonto">
               <input type="hidden" name="idAhorro">
               <div class="form-group input-group">
                 <div class="input-group-prepend">

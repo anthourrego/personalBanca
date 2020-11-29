@@ -27,10 +27,9 @@ $(function(){
     if($("#formCorreo").valid()){
       $("#cargando").modal("show");
       $.ajax({
-        url: URL_BASE,
+        url: URL_BASE + "enviarPin/" + $("#email").val(),
         type: "GET",
         dataType: "json",
-        data: { accion: "enviarPin", email: $("#email").val()},
         success: function(data){
           if(data.success){
             console.log('se envia pin correctamente');
@@ -79,10 +78,9 @@ $(function(){
     if($("#formPin").valid()){
       $("#cargando").modal("show");
       $.ajax({
-        url: URL_BASE,
+        url: URL_BASE + "validarPin/" + $("#email").val() + "/" + $("#pin").val(),
         type: "GET",
         dataType: "json",
-        data: { accion: "validarPIN", pin: $("#pin").val(), email: $("#email").val()},
         success: function(data){
           console.log(data);
           if (data.success) {
@@ -136,12 +134,15 @@ $(function(){
     if($("#formContra").valid()){
       $("#cargando").modal("show");
       $.ajax({
-        url: URL_BASE,
-        type: "GET",
+        url: URL_BASE + "nuevaPassword",
+        type: "PUT",
         dataType: "json",
-        data: { accion: "nuevaPassword", email: $("#email").val(), pass: $("#password").val() },
+        data: { 
+          email: $("#email").val(), 
+          pass: $("#password").val() 
+        },
         success: function(data){
-          if (data == 1) {
+          if (data.success) {
             $("#errorTitulo").html("Cambio de clave");
             $("#errorContenido").html("Clave actualizada correctamente");
             $("#modalError").modal("show");
@@ -167,9 +168,8 @@ $(function(){
 
 function conexionInternet() {
   $.ajax({
-    url: URL_BASE,
+    url: URL_BASE  + 'conexion',
     type: "GET",
-    data: { accion: 'conexion' },
     success: function(data){
       if(data == 1){
         

@@ -1,18 +1,27 @@
 document.addEventListener("deviceready", conexionInternet, false);
+document.addEventListener('backbutton', onBackKeyDown, false);
 $("#cargando").modal("show");
 
 $(function() {
     validarlocalStorage();
 
-    $("#fk_id_usuario").val(localStorage.id);
+    $(":input[name='fk_id_usuario']").val(localStorage.id);
 
-    $('#fechaLimite').datetimepicker({
+    if (localStorage.tipoAhorro == 1) {
+        $("#ahorro").removeClass("d-none");
+        $("#deudas").addClass("d-none");
+    } else {
+        $("#ahorro").addClass("d-none");
+        $("#deudas").removeClass("d-none");
+    }
+
+    $('#fechaLimite, #fechaLimite2').datetimepicker({
         format: 'L',
         defaultDate: new Date(),
         minDate: new Date()
     });
 
-    $("#intervalo, #objetivo").keyup(function(event){
+    $("#intervalo, #objetivo, #formAgregarDeuda :input[name='deuda']").keyup(function(event){
         $(this).val(function(index, value){
             return value
                 .replace(/\D/g, "")
@@ -22,7 +31,6 @@ $(function() {
     });
 
     $("#formAgregar :input[name='tipoAhorro']").on("change", function(){
-        console.log();
         if ($(this).val() == 2) {
             $("#intervalo").prop("disabled", false).closest(".form-group").removeClass("d-none");
         } else {
@@ -40,6 +48,16 @@ $(function() {
         }
     });
 
+    $("#checkFecha2").on("click", function(){
+        if ($(this).is(":checked")) {
+            $("#formfechaLimite2").prop("disabled", true);
+            $("#fechaLimite2").addClass("d-none");
+        } else {
+            $("#formfechaLimite2").prop("disabled", false);
+            $("#fechaLimite2").removeClass("d-none");
+        }
+    });
+
     $("#formAgregar").validate({
         debug: true,
         errorElement: 'span',
@@ -54,6 +72,64 @@ $(function() {
         unhighlight: function(element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
             $(element).addClass('is-valid');
+        }
+    });
+
+    $("#formAgregarDeuda").validate({
+        debug: true,
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+            $(element).addClass('is-valid');
+        }
+    });
+
+    $("#formAgregarDeuda").submit(function(event){
+        event.preventDefault();
+
+        if ($("#formAgregarDeuda").valid()) {
+            $("#cargando").modal("show");
+            $("#index").addClass("disabled").prop("disabled", true);
+            $("#cerrarSesion").addClass("disabled").prop("disabled", true);
+            $("#formAgregarDeuda :input[name='btn-agregar']").addClass("disabled").prop("disabled", true);
+
+            $.ajax({
+                url: URL_BASE + "agregarDeuda",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                data: new FormData(this),
+                success: function(data) {
+                    if (data.success) {
+                        window.location.href = "ahorros.html";
+                    } else {
+                        $("#errorTitulo").html("Error al crear");
+                        $("#errorContenido").html(data.msj);
+                        $("#modalError").modal("show");
+                    }
+                },
+                error: function() {
+                    $("#errorTitulo").html("Error en el envio de datos");
+                    $("#errorContenido").html("Ha ocurrido un error con al conexión.");
+                    $("#modalError").modal("show");
+                },
+                complete: function() {
+                    $("#index").removeClass("disabled").prop("disabled", false);
+                    $("#cerrarSesion").removeClass("disabled").prop("disabled", false);
+                    $("#formAgregarDeuda :input[name='btn-agregar']").removeClass("disabled").prop("disabled", false);
+                    cerrarModalCargando();
+                }
+            });
         }
     });
 
@@ -77,7 +153,7 @@ $(function() {
                 $("#btn-agregar").addClass("disabled").prop("disabled", true);
 
                 $.ajax({
-                    url: URL_BASE,
+                    url: URL_BASE + 'agregarAhorro',
                     type: "POST",
                     cache: false,
                     contentType: false,
@@ -86,7 +162,7 @@ $(function() {
                     data: new FormData(this),
                     success: function(data) {
                         if (data.success) {
-                            window.location.href = "index.html";
+                            window.location.href = "ahorros.html";
                         } else {
                             $("#errorTitulo").html("Error al crear");
                             $("#errorContenido").html(data.msj);
@@ -116,11 +192,14 @@ $(function() {
 
 function conexionInternet() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE  + 'conexion',
         type: "GET",
-        data: { accion: 'conexion' },
         success: function(data) {
             if (data == 1) {
+                $("#formAgregarDeuda :input[name='nombreDeuda']").prop("disabled", false);
+                $("#formAgregarDeuda :input[name='deuda']").prop("disabled", false);
+                $("#formAgregarDeuda :input[name='btn-agregar']").prop("disabled", false);
+
                 $("#nombreAhorro").prop("disabled", false);
                 $("#objetivo").prop("disabled", false);
                 $("#btn-agregar").prop("disabled", false);
@@ -135,4 +214,8 @@ function conexionInternet() {
             cerrarModalCargando();
         }
     })
+}
+
+function onBackKeyDown(){
+    window.location.href = "ahorros.html";
 }

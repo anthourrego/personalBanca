@@ -1,8 +1,19 @@
 document.addEventListener("deviceready", conexionInternet, false);
+document.addEventListener('backbutton', onBackKeyDown, false);
 $("#cargando").modal("show");
 
 $(function() {
     validarlocalStorage();
+
+    if (localStorage.tipoAhorro == 1) {
+        $("#titulo1").text("Objetivo:");
+        $("#titulo2").text("Ahorrado:");
+        $("#modalAddMonto .modal-title").text("¿Cuanto vas a ahorrar?");
+    } else {
+        $("#titulo1").text("Deuda:");
+        $("#titulo2").text("Pagado:");
+        $("#modalAddMonto .modal-title").text("¿Cuanto vas a abonar?");
+    }
 
     $('#input-search').on('keyup', function() {
         var rex = new RegExp($(this).val(), 'i');
@@ -45,7 +56,7 @@ $(function() {
             $("#cargando").modal("show");
 
             $.ajax({
-                url: URL_BASE,
+                url: URL_BASE + "agregarMonto",
                 type: "POST",
                 cache: false,
                 contentType: false,
@@ -53,13 +64,14 @@ $(function() {
                 dataType: "json",
                 data: new FormData(this),
                 success: function(data) {
-                    if (data) {
+                    console.log(data);
+                    if (data.success) {
                         localStorage.ahorrado = Number(localStorage.ahorrado) + Number(valor.replaceAll(".",""));
                         $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(localStorage.ahorrado));
                         generarTabla();
                     } else {
                         $("#errorTitulo").html("Error al agregar monto");
-                        $("#errorContenido").html("No se ha podido agregar el valor");
+                        $("#errorContenido").html(data.msj);
                         $("#modalError").modal("show");
                     }
                 },
@@ -96,12 +108,17 @@ function cambiarCheck(id, intervalo) {
 function actualizarMonto() {
     localStorage.ahorrado = localStorage.intervalo;
     $.ajax({
-        url: URL_BASE,
-        type: "GET",
+        url: URL_BASE + "actualizarMonto",
+        type: "PUT",
         dataType: "json",
-        data: { accion: 'actualizarMonto', id: localStorage.idIntervalo, chec: localStorage.check, idAhorro: localStorage.idAhorro, ahorrado: localStorage.ahorrado },
+        data: { 
+            id: localStorage.idIntervalo, 
+            chec: localStorage.check, 
+            idAhorro: localStorage.idAhorro, 
+            ahorrado: localStorage.ahorrado 
+        },
         success: function(data) {
-            if (data == 1) {
+            if (data.success) {
                 if ($("#int_" + localStorage.idIntervalo).val() == 0) {
                     $("#icon" + localStorage.idIntervalo).removeClass("d-none");
                     $("#int_" + localStorage.idIntervalo).val(1);
@@ -113,9 +130,10 @@ function actualizarMonto() {
                 $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(localStorage.ahorrado));
             } else {
                 $("#errorTitulo").html("Error en el check");
-                $("#errorContenido").html("Error al intentar actualizar.");
+                $("#errorContenido").html(data.msj);
                 $("#modalError").modal("show");
             }
+
             localStorage.removeItem('check');
             localStorage.removeItem('idIntervalo');
             localStorage.removeItem('intervalo');
@@ -130,18 +148,17 @@ function actualizarMonto() {
 
 function generarTabla() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE + "datosMontos/" + localStorage.idAhorro,
         type: "GET",
         dataType: "json",
-        data: { accion: 'datosMontos', idAhorro: localStorage.idAhorro },
         success: function(data) {
             $('#montos').empty();
             if (localStorage.tipo == 1) {
                 $("#addMonto").removeClass("d-none");
                 $("#input-search").addClass("d-none");
-                if (data.cantidad_registros >= 1) {
+                if (data.length >= 1) {
                     $("#montos").append(`<ul class="list-group list-group-flush w-100">`);
-                    for (let i = 0; i < data.cantidad_registros; i++) {
+                    for (let i = 0; i < data.length; i++) {
                         $("#montos").append(`<li class="w-100 list-group-item d-flex justify-content-between align-items-center">
                                                 <span><b>$</b> ${new Intl.NumberFormat("de-DE").format(data[i].valor)}</span>
                                                 <span>${moment(data[i].fecha).format("DD/MM/YYYY")}</span>
@@ -152,7 +169,7 @@ function generarTabla() {
             } else {
                 $("#addMonto").addClass("d-none");
                 $("#input-search").removeClass("d-none");
-                for (let i = 0; i < data.cantidad_registros; i++) {
+                for (let i = 0; i < data.length; i++) {
                     if (data[i].chec == 1) {
                         $('#montos').append('<div class="col-4 text-center border items"><button id="int_' + data[i].id + '" onClick="cambiarCheck(' + data[i].id + ', ' + data[i].valor + ')" class="btn btn-light w-100" value="' + data[i].chec + '">' + new Intl.NumberFormat("de-DE").format(data[i].valor) + ' <span id="icon' + data[i].id + '">✔<span></button></div>');
                     } else {
@@ -174,17 +191,16 @@ function generarTabla() {
 
 function datosAhorro() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE + "datosAhorro/" + localStorage.idAhorro,
         type: "GET",
         dataType: "json",
-        data: { accion: 'datosAhorro', idAhorro: localStorage.idAhorro },
         success: function(data) {
-            localStorage.ahorrado = data[0].ahorrado;
-            localStorage.tipo = data[0].tipo_ahorro;
-            $("#tituloAhorro").html(data[0].nombre);
-            $("#objetivoAhorro").html(new Intl.NumberFormat("de-DE").format(data[0].objetivo));
-            $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(data[0].ahorrado));
-            $("#formAddMonto :input[name='idAhorro']").val(data[0].id)
+            localStorage.ahorrado = data.ahorrado;
+            localStorage.tipo = data.tipo_ahorro;
+            $("#tituloAhorro").html(data.nombre);
+            $("#objetivoAhorro").html(new Intl.NumberFormat("de-DE").format(data.objetivo));
+            $("#ahorrado").html(new Intl.NumberFormat("de-DE").format(data.ahorrado));
+            $("#formAddMonto :input[name='idAhorro']").val(data.id)
             generarTabla();
         },
         error: function() {
@@ -198,9 +214,8 @@ function datosAhorro() {
 
 function conexionInternet() {
     $.ajax({
-        url: URL_BASE,
+        url: URL_BASE  + 'conexion',
         type: "GET",
-        data: { accion: 'conexion' },
         success: function(data) {
             if (data == 1) {
                 datosAhorro();
@@ -214,4 +229,8 @@ function conexionInternet() {
             $("#conexionInternet").modal("show");
         }
     })
+}
+
+function onBackKeyDown(){
+    window.location.href = "ahorros.html";
 }

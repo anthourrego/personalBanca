@@ -22,7 +22,6 @@
         </div>
         <div class="col-12">
             <form id="formRegistro" class="form-signin" autocomplete="off">
-                <input type="hidden" name="accion" value="registro" id="registro">
                 <div class="form-label-group">
                     <input type="text" name="nombres" id="nombres" class="form-control" placeholder="nombres" required autofocus autocomplete="off">
                     <label for="text">Nombres</label>
@@ -43,8 +42,41 @@
                     <input type="password" name="rePass" id="rePass" class="form-control" placeholder="Contraseña" required autocomplete="off">
                     <label for="password">Confirmar Contraseña</label>
                 </div>
+                <div class="custom-control custom-checkbox mr-sm-2 mb-3">
+                    <input type="checkbox" class="custom-control-input" name="terminos" id="terminos" required>
+                    <label class="custom-control-label text-white" for="terminos">He leído y acepto los <a href="#" id="aTerminos" rel="noopener noreferrer">términos y condiciones de uso</a></label>
+                </div>
                 <button type="submit" class="btn btn-primary btn-block "><i class="fas fa-clipboard-check"></i> Registrar</button>
             </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTerminos" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Términos y condiciones de uso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+                    <h5>Propiedad del contenido del Portal web -Copyright-</h5>
+                    <p>Está prohibida la reproducción total o parcial, traducción, inclusión, transmisión, almacenamiento o acceso a través de medios analógicos, digitales o de cualquier otro sistema o tecnología creada o por crearse, sin autorización previa y escrita de Personal Banca.</p>
+                    <h5>Declaración de Privacidad</h5>
+                    <p>La App Personal Banca es una instancia comprometida con los usuarios que además de proveer información, vela por su calidad y fidelidad. Para ello institucionalizó la Declaración de Privacidad, la cual determina y garantiza el debido proceso para utilizar información personal y privada de personas inscritas en el portal para no infligir de ninguna manera las disposiciones contenidas en la Ley Estatutaria del Habeas Data (Ley 1581 del 2012), reglamentada mediante el decreto 1377 del 2013 y en la Ley de Privacidad o Habeas Data Colombiana (Ley 1266 de 2008).</p>
+                    <h5>Recolección de información personal</h5>
+                    <p>La App Personal Banca recolecta información personal de sus usuarios para garantizar algunas de sus actividades. Los datos que con mayor frecuencia se solicitan son: nombre, identificación, dirección de correo electrónico, dirección de residencia, número telefónico.</p>
+                    <p>También cuenta con información que se captura automáticamente relacionada con el hardware y software de los usuarios o clientes de Personal Banca, como dirección IP, tipo de explorador de Internet utilizado, nombre de dominio, tiempos de acceso y direcciones de sitios Web. Esta información es utilizada por el portal para garantizar la operación del servicio, asegurar su calidad y brindar estadísticas generales sobre el uso de la app.</p>
+                    <h5>Habeas DATA</h5>
+                    <p>Lo anterior es en base a la Ley 1266 de 2008 se encarga de regular el manejo de la información contenida en bases de datos personales, en especial la financiera, crediticia, comercial, casi inmediatamente es promulgada Ley 1273 de 2009 que por decirlo de una manera son los dientes que utiliza el estado para hacer cumplir dicho principio consagrando los  delitos de informáticos, ya por ultimo  Ley 1581 de 2012 y finalmente, la fase que podría denominarse de reglamentación administrativa, que ha implicado la puesta en funcionamiento del sistema de registro de bases de datos personales o registro de ficheros – RNBD ante la Superintendencia de Industria y Comercio.</p>
+                    <p>La ley 1581 de 2012 dicta las disposiciones generales para la protección de datos personales, desarrolla el derecho constitucional de todos los titulares de la información puedan conocer, actualizar y rectificar su información personal que haya sido recogida en bases de datos o archivos.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 

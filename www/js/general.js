@@ -1,5 +1,6 @@
-const URL_BASE = "http://localhost/personalBancaBack/acciones.php"
-//const URL_BASE = "http://apparqueo.com/personalBancaBack/acciones.php"
+//const URL_BASE = "http://192.168.0.7/personalBancaBack/acciones.php"
+//const URL_BASE = "https://apparqueo.com/personalBancaBack/acciones.php"
+const URL_BASE = "http://127.0.0.1:8000/api/"
 
 $(function() {
     $("#recargar").on("click", function() {
