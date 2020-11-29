@@ -1,11 +1,11 @@
 document.addEventListener('backbutton', onBackKeyDown, false);
 document.addEventListener("deviceready", conexionInternet, false);
-//document.addEventListener("deviceready", getVersion, false);
+document.addEventListener("deviceready", getVersion, false);
 $("#cargando").modal("show");
 
 $(function() {
     validarlocalStorage();
-    //actualizarVersion();
+    actualizarVersion();
 
     $("#ahorros").on("click", function(event){
         event.preventDefault();
@@ -50,7 +50,7 @@ function actualizarVersion() {
         url: URL_BASE + "versionActual",
         type: "GET",
         success: function(data) {
-            if (data != localStorage.version) {
+            if (data > localStorage.version) {
                 $("#modalActualizarApp").modal("show");
                 setTimeout(function() { var ref = window.open('https://play.google.com/store/apps/details?id=com.carenepeprojects.personabanca', '_system', 'location=no'); }, 1000);
                 setTimeout(function() { exit(); }, 1500);
