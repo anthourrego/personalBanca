@@ -1,5 +1,5 @@
 //const URL_BASE = "http://192.168.0.7/personalBancaBack/acciones.php"
-//const URL_BASE = "https://apparqueo.com/personalBancaBack/acciones.php"
+//const URL_BASE = "http://127.0.0.1:8000/api/"
 const URL_BASE = "https://apparqueo.com/personalBancaBack/public/api/"
 
 $(function() {

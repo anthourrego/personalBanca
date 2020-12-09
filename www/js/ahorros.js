@@ -55,7 +55,8 @@ function traerAhorros() {
         type: "GET",
         dataType: "json",
         success: function(data) {
-            if (data.length < 3) {
+            console.log(localStorage.tipoAhorro);
+            if (data.length < 3 || localStorage.tipoAhorro == 2) {
                 $("#btn-agregarAhorro").removeClass("disabled");
             }
             

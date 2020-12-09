@@ -152,6 +152,7 @@ function generarTabla() {
         type: "GET",
         dataType: "json",
         success: function(data) {
+            console.log(data);
             $('#montos').empty();
             if (localStorage.tipo == 1) {
                 $("#addMonto").removeClass("d-none");
@@ -161,7 +162,7 @@ function generarTabla() {
                     for (let i = 0; i < data.length; i++) {
                         $("#montos").append(`<li class="w-100 list-group-item d-flex justify-content-between align-items-center">
                                                 <span><b>$</b> ${new Intl.NumberFormat("de-DE").format(data[i].valor)}</span>
-                                                <span>${moment(data[i].fecha).format("DD/MM/YYYY")}</span>
+                                                <span>${moment(data[i].created_at).format("DD/MM/YYYY")}</span>
                                             </li>`);
                     }
                     $("#montos").append(`</ul>`);
