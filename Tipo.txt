@@ -1,0 +1,23 @@
+43020297 - Limite superado
+1010024429 - Bloqueado
+71625116 - Titular Baloteado : 43543420 - Beneficiario
+
+10151 - Accion 
+
+42892699 - Titular : 70557060 - Tercero Inactivo
+
+10006:21462087 - Titular : Membresia vencida
+
+1054926688 - Ingreso Especial 
+
+32321873 - Ingreso especial membresia vencida
+10008576 - Ingreso especial memebresia sin iniciar
+
+
+Barra 534600:
+Tarjeta Socio: 8130000000000001
+
+8130010000000002 : Tarjeta Socio Inactiva
+8130010000001001 : Tarjeta socio sin datos asignados 
+
+10014962 : Escolta, debe de ingrear con el socio 
