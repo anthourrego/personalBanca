@@ -21,3 +21,22 @@ Tarjeta Socio: 8130000000000001
 8130010000001001 : Tarjeta socio sin datos asignados 
 
 10014962 : Escolta, debe de ingrear con el socio 
+
+If Not Exists(Select * From Sys.Objects Where Type = 'U' And Name = 'OrdeProdActiviOperario')
+Begin 
+	Create Table OrdeProdActiviOperario(
+		OrdeProdActiviOperarioId Int Identity(1,1) Not Null
+		,OperarioId Int Null
+		,OrdeProdOperacionId Int Null
+		,Fecha Datetime Null
+		,GrupoId Int Null
+		,Constraint PK_OrdeProdActiviOperario Primary Key Clustered(OrdeProdActiviOperarioId)
+	)
+
+	Alter Table OrdeProdActiviOperario With Check Add Constraint FK_OrdeProdActiviOperario_OperarioId Foreign Key(OperarioId) References Operario(OperarioId)
+	Alter Table OrdeProdActiviOperario Check Constraint FK_OrdeProdActiviOperario_OperarioId
+	Alter Table OrdeProdActiviOperario With Check Add Constraint FK_OrdeProdActiviOperario_OrdeProdOperacionId Foreign Key(OrdeProdOperacionId) References OrdeProdOperacion(OrdeProdOperacionId) On UPdate Cascade On Delete Cascade
+	Alter Table OrdeProdActiviOperario Check Constraint FK_OrdeProdActiviOperario_OrdeProdOperacionId
+	Print 'Crea Tabla OrdeProdActiviOperario'
+End 
+Go
