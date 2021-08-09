@@ -272,3 +272,19 @@ desencriptar(encriptado) {
 	const decrypted = CryptoJS.AES.decrypt(encriptado.ciphertext, key, { iv: iv });
 	return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
 }
+
+
+
+
+Key -> 16d1e2ebc21235c559c946c8382a9a3d
+IV -> 07bef6951321e4b6
+
+ENCRYP -> fl/GvTjEdFqv0qsFcne9PnOzUPCRQpV4dRXtQVveJ1DYCiZAebWK0mNrDlUlxnkeaDPyj2Yg83jw
+    HE3NqesqvbkMqb/IeFKNbo9yBeMN9T2+raFh4X0sFtUklnbSoqun172VWde3mMBFeAlH7yNoUKdf
+    0EYwwoDlDRpszpXwTenNuS4GNtqjd0HIEnCoHxeiDZ4lBj/Xk0jME2ZgFvra2SHggsj7758PsCP3
+    9kauDaqDSo9R4eLOdrUln/6h/5RiKjKbGmHjwteLVew9ti9NkE1yzHscbAqAsr3uQ+kwU2j6AmhX
+    R+Dt+Xe92iNS0paCW6G2riQ9Bm1QrkxD7Gzo8wRk8hGCsW6TzuWiq8uPJ5ofOcNo+hi0T4kgR3/0
+    IAq0zG9q2U9M1R5xtvj7b5+Cnt75lG1EyAipW7P7NrpCpjijz1/AoToF+0SrwbN6OwrvulzbJiWj
+    kAyj8ijAhJbFzQhXc9a05etSO4DH3exgo6Kjj0VaNHHxkNDmcNK8WhcVKZy63vz0yULugD1ojpeo
+    5y+UNXArtHOM8sTbTprGzz3GPqqbe4mg32hsSf3LrixeELYvCenESXU9D7GsmHE0+BMfzv/ztuHI
+    u11+zSDeYanelmhIYQAe4F9Mb28Yz6eaDO1ci+w2AxKnFkzTqEn3DJ3Anvxg8qk=
