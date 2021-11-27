@@ -288,3 +288,10 @@ ENCRYP -> fl/GvTjEdFqv0qsFcne9PnOzUPCRQpV4dRXtQVveJ1DYCiZAebWK0mNrDlUlxnkeaDPyj2
     kAyj8ijAhJbFzQhXc9a05etSO4DH3exgo6Kjj0VaNHHxkNDmcNK8WhcVKZy63vz0yULugD1ojpeo
     5y+UNXArtHOM8sTbTprGzz3GPqqbe4mg32hsSf3LrixeELYvCenESXU9D7GsmHE0+BMfzv/ztuHI
     u11+zSDeYanelmhIYQAe4F9Mb28Yz6eaDO1ci+w2AxKnFkzTqEn3DJ3Anvxg8qk=
+
+.btn-floating, .CheckOut, .btn-Reservas, .reservas-mesa {
+	position: fixed;
+	bottom: 50px;
+	right: 10px;
+	z-index: 1030;
+}
